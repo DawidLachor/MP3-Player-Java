@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Slider?>
+
+<HBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pl.dawidlachor.mp3player.controller.ControlController">
+    <Button fx:id="previousButton" mnemonicParsing="false" text="Button"/>
+    <ToggleButton fx:id="playButton" mnemonicParsing="false" text="ToggleButton"/>
+    <Button fx:id="nextButton" mnemonicParsing="false" text="Button"/>
+    <Slider fx:id="volumeSlider"/>
+    <Slider fx:id="progressSlider"/>
+</HBox>
