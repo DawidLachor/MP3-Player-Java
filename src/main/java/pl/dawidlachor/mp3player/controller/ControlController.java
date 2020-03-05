@@ -28,9 +28,7 @@ public class ControlController {
     }
 
     private void configureVolume() {
-        volumeSlider.addEventFilter(MouseEvent.MOUSE_PRESSED, event ->
-                System.out.println("Wciśnięto przycisk na suwaku głośności")
-        );
+        volumeSlider.valueProperty().addListener(((observableValue, oldNumber, nowNumber) -> System.out.println(nowNumber.doubleValue())));
     }
 
     private void configureButtons() {
