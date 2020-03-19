@@ -2,14 +2,15 @@ package pl.dawidlachor.mp3player.controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
+import pl.dawidlachor.mp3player.mp3.Mp3Parser;
 import pl.dawidlachor.mp3player.mp3.Mp3Song;
 import pl.dawidlachor.mp3player.player.Mp3Player;
 
@@ -31,7 +32,39 @@ public class MainController {
         createPlayer();
         configureTableClick();
         configureButtons();
-        addTestMp3();
+        configureMenu();
+    }
+
+    private void configureMenu() {
+        MenuItem openFile = menuPaneController.getFileMenuItem();
+        MenuItem openDir = menuPaneController.getDirMenuItem();
+
+        openFile.setOnAction(event -> {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Mp3", "*.mp3"));
+            File file = fc.showOpenDialog(new Stage());
+            try {
+                contentPaneController.getContentTable().getItems().add(Mp3Parser.createMp3Song(file));
+                showMessage("Załadowano plik " + file.getName());
+            } catch (Exception e) {
+                showMessage("Nie można otworzyć pliku " + file.getName());
+            }
+        });
+
+        openDir.setOnAction(event -> {
+            DirectoryChooser dc = new DirectoryChooser();
+            File dir = dc.showDialog(new Stage());
+            try {
+                contentPaneController.getContentTable().getItems().addAll(Mp3Parser.createMp3List(dir));
+                showMessage("Wczytano dane z folderu " + dir.getName());
+            } catch (Exception e) {
+                showMessage("Wystąpił błąd podczas odczytu folderu");
+            }
+        });
+    }
+
+    private void showMessage(String message) {
+        controlPaneController.getMessageTextField().setText(message);
     }
 
     private void createPlayer() {
